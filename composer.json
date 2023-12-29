@@ -1,0 +1,18 @@
+{
+    "name": "andremello/miniframework",
+    "require": {
+        "php": ">=7.0"
+    },
+    "authors": [
+        {
+            "name": "André Mello",
+            "email": "andremelloti@outlook.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "app\\": "app/",
+            "mf\\": "vendor/mf"
+        }
+    }
+}
