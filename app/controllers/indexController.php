@@ -1,39 +1,34 @@
 <?php
 
 namespace app\controllers;
+//recursos mini framework
+use mf\controller\Action;
+use mf\model\Container;
 
-class IndexController {
-    private $view;
+//models
+use app\models\Produto;
+use app\models\Info;
 
-    public function __construct()
-    {
-        $this->view = new \stdClass();
-    }
+class IndexController extends Action {
+   
 
 	public function index() {
-        $this->view->dados = array(
-            'sofá',
-            'cadeira',
-            'cama'
-        );
-		$this->render("index");
+        
+      $produto = Container::getModel('produto');
+  
+      $produtos = $produto->getProdutos();
+      $this->view->dados = $produtos;
+		  $this->render("index", "layout1");
 	}
 
 	public function sobreNos() {
-        $this->view->dados = array(
-            'notebook',
-            'smartphone',
-            'cadeira'
-        );
-		$this->render("sobreNos");
+       
+    $info = Container::getModel('info');
+    $informacao = $info->getInfo();
+    $this->view->dados = $informacao;
+	  $this->render("sobreNos", "layout2");
 	}
 
-    public function render($view){
-        $classeAtual = get_class($this);
-        $classeAtual = str_replace("app\\controllers\\", "", $classeAtual);
-        $classeAtual = strtolower(str_replace("Controller", "", $classeAtual));
-        require_once "../app/views/".$classeAtual."/".$view.".phtml";
-    }
 }
 
 
