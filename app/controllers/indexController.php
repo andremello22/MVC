@@ -1,32 +1,55 @@
 <?php
 
-namespace app\controllers;
-//recursos mini framework
-use mf\controller\Action;
-use mf\model\Container;
+namespace App\Controllers;
 
-//models
-use app\models\Produto;
-use app\models\Info;
+//os recursos do miniframework
+use MF\Controller\Action;
+use MF\Model\Container;
 
 class IndexController extends Action {
-   
 
 	public function index() {
-        
-      $produto = Container::getModel('produto');
-  
-      $produtos = $produto->getProdutos();
-      $this->view->dados = $produtos;
-		  $this->render("index", "layout1");
-	}
 
-	public function sobreNos() {
-       
-    $info = Container::getModel('info');
-    $informacao = $info->getInfo();
-    $this->view->dados = $informacao;
-	  $this->render("sobreNos", "layout2");
+		$this->render('index');
+	}
+	public function inscreverSe(){
+		$this->view->usuario = array(
+			'nome'=>'',
+			'email'=>'',
+			'senha'=>''
+		);
+		$this->view->erroCadastro = false;
+		$this->render('inscreverse');
+	}
+	public function registrar(){
+		//receber dados do form
+		$usuario = Container::getModel('Usuario');
+		$usuario->__set('nome', $_POST['nome']);
+		$usuario->__set('email', $_POST['email']);
+		$usuario->__set('senha', $_POST['senha']);
+		
+		if(($usuario->validarCadastro()) && (count($usuario->getUsuarioPorEmail())==0)){
+				//sucesso
+				$usuario->salvar();
+				$this->render('cadastro');
+
+			
+		}else{
+			$this->view->usuario = array(
+				'nome'=>$_POST['nome'],
+				'email'=>$_POST['email'],
+				'senha'=>$_POST['senha']
+			);
+			
+			
+			$this->view->erroCadastro = true;
+			$this->render('inscreverse');
+		//erro
+		}
+	
+
+		
+		
 	}
 
 }

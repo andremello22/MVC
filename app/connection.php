@@ -1,24 +1,24 @@
-<?php 
-namespace app;
-use PDO;
-use PDOException;
+<?php
 
+namespace App;
 
-class Connection{
+class Connection {
 
-    public static function getDb(){
-        try{       
-            $conn = new PDO(
-                "mysql:host=localhost;dbname=MVC;charset=utf8",
-                "root",
-                ""
-            );
-        }catch(PDOException $e){
-            echo'Falha na conexão com o banco!! erro: '.$e;
-        } 
-        return $conn;
-    }
+	public static function getDb() {
+		try {
 
+			$conn = new \PDO(
+				"mysql:host=localhost;dbname=twitter_clone;charset=utf8",
+				"root",
+				"" 
+			);
+
+			return $conn;
+
+		} catch (\PDOException $e) {
+			//.. tratar de alguma forma ..//
+		}
+	}
 }
 
 ?>

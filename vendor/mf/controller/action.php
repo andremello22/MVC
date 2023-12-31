@@ -1,30 +1,34 @@
-<?php 
-namespace mf\controller;
+<?php
 
-abstract class Action{
-    
-    protected $view;
+namespace MF\Controller;
 
-    public function __construct()
-    {
-        $this->view = new \stdClass();
-    }
+abstract class Action {
 
-    
-    protected function render($view, $layout){
-        $this->view->page = $view;
-        if(file_exists("../app/views/".$layout.".phtml")){
-        require_once "../app/views/".$layout.".phtml";
-        }else{
-            $this->content();
-        }
-    }
-    public function content(){
-        $classeAtual = get_class($this);
-        $classeAtual = str_replace("app\\controllers\\", "", $classeAtual);
-        $classeAtual = strtolower(str_replace("Controller", "", $classeAtual));
-        require_once "../app/views/".$classeAtual."/".$this->view->page.".phtml";
-    }
+	protected $view;
+
+	public function __construct() {
+		$this->view = new \stdClass();
+	}
+
+	protected function render($view, $layout = 'layout') {
+		$this->view->page = $view;
+
+		if(file_exists("../App/Views/".$layout.".phtml")) {
+			require_once "../App/Views/".$layout.".phtml";
+		} else {
+			$this->content();
+		}
+	}
+
+	protected function content() {
+		$classAtual = get_class($this);
+
+		$classAtual = str_replace('App\\Controllers\\', '', $classAtual);
+
+		$classAtual = strtolower(str_replace('Controller', '', $classAtual));
+
+		require_once "../App/Views/".$classAtual."/".$this->view->page.".phtml";
+	}
 }
 
 ?>
